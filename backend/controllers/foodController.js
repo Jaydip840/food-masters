@@ -34,8 +34,8 @@ const updateFood = async (req, res) => {
         // If a new image is provided, delete the old one and use the new one's filename
         if (req.file) {
             const food = await foodModel.findById(id);
-            if(food.image) {
-              fs.unlink(`uploads/${food.image}`, () => {})
+            if (food.image) {
+                fs.unlink(`uploads/${food.image}`, () => { })
             }
             updateData.image = req.file.filename;
         }
@@ -72,9 +72,6 @@ const removeFood = async (req, res) => {
         res.json({ success: false, message: "Error" })
     }
 }
-<<<<<<< HEAD
-export { addFood,listFood,removeFood,updateFood }
-=======
 //rate food item
 const rateFood = async (req, res) => {
     try {
@@ -101,5 +98,4 @@ const rateFood = async (req, res) => {
     }
 }
 
-export { addFood, listFood, removeFood, rateFood }
->>>>>>> 04c03c79aab66b42d4eb8b62aeef8503eeaf2969
+export { addFood, listFood, removeFood, updateFood, rateFood }
