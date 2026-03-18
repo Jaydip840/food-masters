@@ -11,7 +11,7 @@ import statsRouter from "./routes/statsRoute.js"
 
 //app config
 const app = express()
-const PORT = process.env.PORT || 4000;
+const port = 4000
 
 //midleeware
 app.use(express.json())
@@ -37,6 +37,7 @@ app.get("/", (req, res) => {
     res.send("API Working")
 })
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+app.listen(port, () => {
+    console.log(`Server Started on http://localhost:${port}`)
+})
+
