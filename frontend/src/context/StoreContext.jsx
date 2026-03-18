@@ -6,7 +6,7 @@ export const StoreContext = createContext(null)
 const StoreContextProvider = (props) => {
 
     // const url = "https://foodmasters-backend.onrender.com"
-    const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+    const url = "http://localhost:4000"
     const [cartItems, setCartItems] = useState({});
     const [role, setRole] = useState(localStorage.getItem("role") || "");
     const [token, setToken] = useState("");

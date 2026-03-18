@@ -12,7 +12,7 @@ import ContactMessages from "./pages/Contact/ContactMessages";
 
 const App = () => {
   // const url = "https://foodmasters-backend.onrender.com"
-  const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+  const url = "http://localhost:4000"
 
   return (
     <div>

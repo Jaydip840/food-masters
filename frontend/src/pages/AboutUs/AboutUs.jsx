@@ -58,8 +58,7 @@ const AboutUs = () => {
     setSuccess(false);
 
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
-      const res = await fetch(`${backendUrl}/api/contact`, {
+      const res = await fetch("http://localhost:4000/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
