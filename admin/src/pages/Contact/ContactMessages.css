@@ -1,0 +1,103 @@
+/* Page layout */
+.contact-messages-page {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-messages-page h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Table wrapper */
+.contact-table {
+  width: 100%;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e6e6e6;
+  overflow: hidden;
+}
+
+/* Header (soft + clean) */
+.contact-header {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 2fr 1fr 0.5fr;
+  padding: 12px 15px;
+  background: #f7f7f7;
+  font-weight: 600;
+  color: #444;
+  border-bottom: 1px solid #e4e4e4;
+}
+
+/* Rows */
+.contact-row {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 2fr 1fr 0.5fr;
+  padding: 12px 15px;
+  gap: 12px;
+  border-bottom: 1px solid #efefef;
+  font-size: 15px;
+  color: #333;
+}
+
+.contact-row:hover {
+  background: #fafafa;
+}
+
+/* Name aesthetic */
+.contact-row .name {
+  font-weight: 600;
+  color: #222;
+}
+
+/* Delete icon */
+.cursor {
+  cursor: pointer;
+  color: #ff4f4f;
+  font-weight: bold;
+  transition: 0.15s;
+}
+
+.cursor:hover {
+  color: #d42d2d;
+}
+
+/* Text handling */
+.contact-row p {
+  word-break: break-word;
+}
+
+/* -------- Responsive CSS (simple aesthetic) -------- */
+@media (max-width: 650px) {
+
+  /* Hide header (food list style) */
+  .contact-header {
+    display: none;
+  }
+
+  /* Convert rows into soft card blocks */
+  .contact-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px;
+    gap: 6px;
+    border-radius: 8px;
+    background: #fff;
+    margin-bottom: 12px;
+    border: 1px solid #eee;
+  }
+
+  .contact-row p {
+    font-size: 14px;
+    width: 100%;
+  }
+
+  .contact-row .name {
+    font-size: 15.5px;
+    color: #111;
+  }
+}
