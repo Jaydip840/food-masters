@@ -10,7 +10,8 @@ const Navbar = () => {
     const email = "foodizo17@gmail.com"; 
     
     // Pass them as URL parameters so the frontend can read them on mount
-    window.location.href = `http://localhost:5173/?adminToken=${token}&adminEmail=${email}`;
+    const frontendUrl = import.meta.env.VITE_FRONTEND_URL || "http://localhost:5173";
+    window.location.href = `${frontendUrl}/?adminToken=${token}&adminEmail=${email}`;
   };
   
   return (

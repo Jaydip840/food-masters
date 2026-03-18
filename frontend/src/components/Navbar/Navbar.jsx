@@ -59,7 +59,10 @@ const Navbar = ({ setShowLogin }) => {
               {isAdmin && (
                 <>
                   {/* <li onClick={() => { window.location.href = "https://foodizo-on-admin.netlify.app"; }}> */}
-                  <li onClick={() => { window.location.href = "http://localhost:5174"; }}>
+                  <li onClick={() => { 
+                    const adminUrl = import.meta.env.VITE_ADMIN_URL || "http://localhost:5174";
+                    window.location.href = adminUrl; 
+                  }}>
                     <img src={assets.settings_icon} alt="" />
                     <p>Admin</p>
                   </li>
