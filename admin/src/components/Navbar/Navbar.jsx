@@ -10,7 +10,8 @@ const Navbar = ({ setToken }) => {
     const email = localStorage.getItem("adminEmail") || ""; 
     
     // Pass them as URL parameters so the frontend can read them on mount
-    window.location.href = `http://localhost:5173/?adminToken=${token}&adminEmail=${email}`;
+    const frontend_url = import.meta.env.VITE_FRONTEND_URL || "http://localhost:5173";
+    window.location.href = `${frontend_url}/?adminToken=${token}&adminEmail=${email}`;
   };
   
   return (

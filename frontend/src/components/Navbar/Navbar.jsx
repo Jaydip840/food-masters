@@ -58,8 +58,7 @@ const Navbar = ({ setShowLogin }) => {
             <ul className='nav-profile-dropdown'>
               {isAdmin && (
                 <>
-                  {/* <li onClick={() => { window.location.href = "https://foodizo-on-admin.netlify.app"; }}> */}
-                  <li onClick={() => { window.location.href = "http://localhost:5174"; }}>
+                  <li onClick={() => { window.location.href = import.meta.env.VITE_ADMIN_URL || "http://localhost:5174"; }}>
                     <img src={assets.settings_icon} alt="" />
                     <p>Admin</p>
                   </li>
