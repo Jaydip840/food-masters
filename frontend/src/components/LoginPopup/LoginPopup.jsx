@@ -25,7 +25,7 @@ const LoginPopup = ({ setShowLogin }) => {
   const onLogin = async (event) => {
     event.preventDefault();
     let newUrl = url;
-    if (currState === "Login") {
+    if (currState === "Login" || currState === "Admin Login") {
       newUrl += "/api/user/login";
     } else {
       newUrl += "/api/user/register";
@@ -36,21 +36,36 @@ const LoginPopup = ({ setShowLogin }) => {
       const response = await axios.post(newUrl, data);
 
       if (response.data.success) {
+
+        // Strict check: if Admin Login, block non-admins
+        if (currState === "Admin Login" && response.data.role !== "admin") {
+          toast.error("Unauthorized. Only administrators can use this form.");
+          setLoading(false);
+          return;
+        }
+
+        // Strict check: if User Login/Sign Up, block admins
+        if ((currState === "Login" || currState === "Sign Up") && response.data.role === "admin") {
+          toast.error("Administrators must use the Admin Login section.");
+          setLoading(false);
+          return;
+        }
+
+        // Now save tokens and show success
         setToken(response.data.token);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("email", data.email);
         toast.success(response.data.message);
-        if (response.data.role === "admin") {
-          // window.location.href = "https://foodizo-on-admin.netlify.app";
-          window.location.href = "http://localhost:5174";
-        } else {
-          // window.location.href = "https://foodizo-on.netlify.app";
-          window.location.href = "http://localhost:5173";
 
+        if (response.data.role === "admin") {
+          // window.location.href = "http://localhost:5174";
+          window.location.href = `https://foodizo-on-admin.netlify.app/?adminToken=${response.data.token}&adminEmail=${data.email}`;
+        } else {
+          window.location.href = "https://foodizo-on.netlify.app";
+          // window.location.href = "http://localhost:5173";
         }
 
         // reset state & close popup
-
         setData({ name: "", email: "", password: "" });
         setShowLogin(false);
       }
@@ -68,12 +83,28 @@ const LoginPopup = ({ setShowLogin }) => {
     <div className="login-popup">
       <form onSubmit={onLogin} className="login-popup-container">
         <div className="login-popup-title">
-          <h2>{currState}</h2>
+          <h2>{currState === "Sign Up" ? "Sign Up" : "Login"}</h2>
           <img onClick={() => setShowLogin(false)} src={assets.cross_icon} alt="Close" title="Close" />
         </div>
 
+        <div className="login-popup-slider">
+          <div
+            className={`slider-btn ${currState !== "Admin Login" ? "active" : ""}`}
+            onClick={() => setCurrState("Login")}
+          >
+            User
+          </div>
+          <div
+            className={`slider-btn ${currState === "Admin Login" ? "active" : ""}`}
+            onClick={() => setCurrState("Admin Login")}
+          >
+            Admin
+          </div>
+          <div className="slider-indicator" style={{ transform: currState === "Admin Login" ? "translateX(100%)" : "translateX(0)" }}></div>
+        </div>
+
         <div className="login-popup-inputs">
-          {currState === "Login" ? null : (
+          {(currState === "Login" || currState === "Admin Login") ? null : (
             <input name="name" onChange={onChangeHandler} value={data.name} type="text" placeholder="Your Name" required />
           )}
           <input name="email" onChange={onChangeHandler} value={data.email} type="email" placeholder="Your Email" required />
@@ -89,7 +120,7 @@ const LoginPopup = ({ setShowLogin }) => {
               <span></span>
             </div>
           ) : (
-            currState === "Sign Up" ? "Create Account" : "Login"
+            currState === "Sign Up" ? "Create Account" : (currState === "Admin Login" ? "Secure Admin Login" : "Login")
           )}
         </button>
         <div className="login-popup-condition">
@@ -100,19 +131,21 @@ const LoginPopup = ({ setShowLogin }) => {
           </p>
         </div>
 
-        <p className="login-popup-toggle">
-          {currState === "Login" ? (
-            <>
-              Create a new account?{" "}
-              <span onClick={() => setCurrState("Sign Up")}>Click here</span>
-            </>
-          ) : (
-            <>
-              Already have an account?{" "}
-              <span onClick={() => setCurrState("Login")}>Login here</span>
-            </>
-          )}
-        </p>
+        {currState !== "Admin Login" && (
+          <p className="login-popup-toggle">
+            {currState === "Login" ? (
+              <>
+                Create a new account?{" "}
+                <span onClick={() => setCurrState("Sign Up")}>Click here</span>
+              </>
+            ) : (
+              <>
+                Already have an account?{" "}
+                <span onClick={() => setCurrState("Login")}>Login here</span>
+              </>
+            )}
+          </p>
+        )}
       </form>
     </div>
   );

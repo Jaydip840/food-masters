@@ -6,8 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const placeOrder = async (req, res) => {
   try {
-    // const frontend_url = "https://foodizo-on.netlify.app";
-    const frontend_url = "http://localhost:5173";
+    const frontend_url = process.env.FRONTEND_URL || "http://localhost:5173";
 
     const { userId, items, address, deliveryFee, paymentMethod } = req.body;
     const itemsSubtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -119,4 +118,15 @@ const updateStaus = async (req, res) => {
   }
 }
 
-export { placeOrder, verifyOrder, userOrders, listOrders, updateStaus }
+// api to clear user history
+const clearHistory = async (req, res) => {
+  try {
+    await orderModel.deleteMany({ userId: req.body.userId, status: "Delivered" });
+    res.json({ success: true, message: "History cleared successfully" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Error clearing history" });
+  }
+}
+
+export { placeOrder, verifyOrder, userOrders, listOrders, updateStaus, clearHistory }

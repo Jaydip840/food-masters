@@ -17,12 +17,20 @@ import Verify from './pages/Verify/Verify.jsx'
 import MyOrders from './pages/MyOrders/MyOrders.jsx'
 import FoodDetails from './pages/FoodDetails/FoodDetails.jsx'
 import Profile from './pages/Profile/Profile.jsx'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: 'ease-in-out'
+    })
+    
     const timer = setTimeout(() => {
       setLoading(false)
     }, 2000)

@@ -11,6 +11,7 @@ const Profile = () => {
     const [userData, setUserData] = useState(null);
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isClearing, setIsClearing] = useState(false);
     
     // OTP Modal states
     const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -58,6 +59,26 @@ const Profile = () => {
         } catch (error) {
             console.error("Error fetching orders", error);
         }
+    };
+
+    const handleClearHistory = async () => {
+        if (!window.confirm("Are you sure you want to permanently clear your delivered order history?")) {
+            return;
+        }
+        setIsClearing(true);
+        try {
+            const response = await axios.post(url + "/api/order/clearhistory", {}, { headers: { token } });
+            if (response.data.success) {
+                toast.success(response.data.message);
+                setOrders([]);
+            } else {
+                toast.error(response.data.message);
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Error clearing history");
+        }
+        setIsClearing(false);
     };
 
     const handleSendOtp = async () => {
@@ -139,9 +160,22 @@ const Profile = () => {
 
                 {/* --- Main Content: Order History --- */}
                 <div className="profile-main">
-                    <div className="main-header">
-                        <h3>Order History</h3>
-                        <span className="subtitle">Displaying your verified delivered orders.</span>
+                    <div className="main-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                        <div>
+                            <h3>Order History</h3>
+                            <span className="subtitle">Displaying your verified delivered orders.</span>
+                        </div>
+                        {orders.length > 0 && (
+                            <button 
+                                onClick={handleClearHistory} 
+                                disabled={isClearing}
+                                style={{ background: 'transparent', color: '#ff4757', border: '1.5px solid #ff4757', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600', transition: '0.3s', fontSize: '0.9rem' }}
+                                onMouseOver={(e) => { e.currentTarget.style.background = '#ff4757'; e.currentTarget.style.color = '#fff'; }}
+                                onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#ff4757'; }}
+                            >
+                                <i className="fa-solid fa-trash"></i> {isClearing ? "Clearing..." : "Clear History"}
+                            </button>
+                        )}
                     </div>
 
                     <div className="history-list">

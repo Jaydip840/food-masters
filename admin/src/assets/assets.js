@@ -7,7 +7,7 @@ import parcel_icon from './parcel_icon.png'
 import contact from './contact.png'
 
 
-export const assets ={
+export const assets = {
     logo,
     add_icon,
     order_icon,
@@ -16,5 +16,5 @@ export const assets ={
     parcel_icon,
     contact
 }
-
-export const url = 'http://localhost:4000'
+export const url = 'https://backend-c6ta.onrender.com'
+// export const url = 'http://localhost:4000'
