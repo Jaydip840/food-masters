@@ -3,28 +3,29 @@ import './Orders.css'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { assets } from '../../assets/assets.js';
+import { Package, MapPin, Phone, Calendar, CreditCard, ChevronRight } from 'lucide-react';
+import CustomSelect from '../../components/CustomSelect/CustomSelect';
 
 const Orders = ({ url }) => {
+  const statusOptions = ["Processing", "Out for delivery", "Delivered", "Cancelled"];
   const [orders, setOrders] = useState([]);
 
   const fetchAllOrders = async () => {
-
     const response = await axios.get(url + "/api/order/list");
     if (response.data.success) {
-      // Create a new array and reverse it to prevent mutating the original state directly
       const reversedOrders = [...response.data.data].reverse();
-      setOrders(reversedOrders); // Show newest first
+      setOrders(reversedOrders);
     } else {
       toast.error("Error fetching orders");
     }
   }
 
-  const statusHandler = async (event,orderId) =>{
+  const statusHandler = async (event, orderId) => {
     const newStatus = event.target.value;
-    const response = await axios.post(url+"/api/order/status",{
+    const response = await axios.post(url + "/api/order/status", {
       orderId,
       status: newStatus
-    })    
+    })
     if (response.data.success) {
       toast.success(`Order status updated to ${newStatus}`);
       await fetchAllOrders();
@@ -33,12 +34,11 @@ const Orders = ({ url }) => {
     }
   }
 
-  // Helper to format the Date string
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
-    const options = { 
-      year: 'numeric', month: 'short', day: 'numeric', 
-      hour: '2-digit', minute: '2-digit' 
+    const options = {
+      year: 'numeric', month: 'short', day: 'numeric',
+      hour: '2-digit', minute: '2-digit'
     };
     return new Date(dateString).toLocaleDateString(undefined, options);
   }
@@ -48,79 +48,90 @@ const Orders = ({ url }) => {
   }, [])
 
   return (
-    <div className='orders-page flex-col'>
-      <div className="orders-header">
-        <h2>Order Management</h2>
-        <p>Monitor and update customer orders</p>
+    <div className='orders-page-container'>
+      <div className="admin-page-header">
+        <h2>Order <span>Management</span></h2>
+        <p>Track, manage and process customer orders in real-time</p>
       </div>
-      
-      <div className="order-list">
+
+      <div className="orders-grid">
         {orders.map((order, index) => (
-          <div key={index} className={`order-card ${order.status === 'Cancelled' ? 'cancelled-order' : ''}`}>
-            <div className="order-card-icon">
-              <img src={assets.parcel_icon} alt="Parcel Icon" />
-            </div>
+          <div key={index} className={`order-premium-card ${order.status.toLowerCase().replace(/\s+/g, '-')}`}>
             
-            <div className="order-details">
-              <p className='order-item-food'>
-                {order.items.map((item, i) =>
-                  i === order.items.length - 1
-                    ? item.name + " x " + item.quantity
-                    : item.name + " x " + item.quantity + ", "
-                )}
-              </p>
-              
-              <div className="order-customer-info">
-                <p className="order-item-name">{order.address.firstName + " " + order.address.lastName}</p>
-                <div className="order-item-address">
-                  <p>{order.address.street + ","}</p>
-                  <p>{order.address.city + ", " + order.address.state + ", " + order.address.country + ", " + order.address.zipcode}</p>
+            {/* Order Head */}
+            <div className="order-card-head">
+              <div className="order-id-box">
+                <Package size={24} className="order-icon" />
+                <div className="id-details">
+                  <span className="label">ORDER ID</span>
+                  <span className="id">#{order._id.slice(-8).toUpperCase()}</span>
                 </div>
-                <p className='order-item-phone'>{order.address.phone}</p>
+              </div>
+              <div className="order-date-box">
+                <Calendar size={16} />
+                <span>{formatDate(order.date)}</span>
               </div>
             </div>
-            
-            <div className="order-meta">
-              <div className="meta-top">
-                <p className="order-date"><i className="fa-regular fa-clock"></i> {formatDate(order.date)}</p>
-                <p className="payment-status">
-                  Payment: 
-                  {order.paymentMethod === "UPI" ? (
-                    <span className="paid">UPI (Paid)</span>
-                  ) : order.paymentMethod === "Stripe" ? (
-                    <span className={order.payment ? "paid" : "pending"}>Stripe ({order.payment ? "Paid" : "Pending"})</span>
-                  ) : order.paymentMethod === "COD" ? (
-                    <span className={order.payment ? "paid" : "pending"}>COD ({order.payment ? "Paid" : "Pending"})</span>
-                  ) : (
-                    <span className={order.payment ? "paid" : "pending"}>{order.payment ? "Online (Paid)" : "COD (Pending)"}</span>
-                  )}
-                </p>
+
+            <div className="order-card-body">
+              {/* Items Section */}
+              <div className="order-items-section">
+                <h4>Items Ordered ({order.items.length})</h4>
+                <div className="items-list">
+                  {order.items.map((item, i) => (
+                    <div key={i} className="item-row">
+                      <span className="item-name">{item.name}</span>
+                      <span className="item-qty">x{item.quantity}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              <div className="meta-bottom">
-                <div className="meta-info">
-                  <p>Items: <b>{order.items.length}</b></p>
-                  <p className="order-amount">₹{order.amount}</p>
+              {/* Customer & Address */}
+              <div className="order-delivery-section">
+                <h4>Delivery Details</h4>
+                <div className="customer-main">
+                  <span className="customer-name">{order.address.firstName} {order.address.lastName}</span>
+                  <div className="contact-info">
+                    <Phone size={14} /> {order.address.phone}
+                  </div>
+                </div>
+                <div className="address-box">
+                  <MapPin size={16} className="pin-icon" />
+                  <p>{order.address.street}, {order.address.city}, {order.address.state} - {order.address.zipcode}</p>
+                </div>
+              </div>
+
+              {/* Payment & Status */}
+              <div className="order-status-section">
+                <div className="payment-badge">
+                  <CreditCard size={16} />
+                  <span>{order.paymentMethod} • <b className={order.payment ? 'paid' : 'pending'}>{order.payment ? 'PAID' : 'PENDING'}</b></span>
+                </div>
+                <div className="total-amount">
+                  <span className="label">Total Amount</span>
+                  <span className="value">₹{order.amount}</span>
                 </div>
                 
-                <select 
-                  onChange={(event)=>statusHandler(event,order._id)} 
-                  value={order.status}
-                  className={`status-select ${order.status.toLowerCase().replace(' ', '-')}`}
-                >
-                  <option value="Processing">Processing</option>
-                  <option value="Out for delivery">Out for delivery</option>
-                  <option value="Delivered">Delivered</option>
-                  <option value="Cancelled">Cancelled</option>
-                </select>
+                <div className="status-control">
+                  <label>Update Status</label>
+                  <CustomSelect 
+                    options={statusOptions} 
+                    onChange={(e) => statusHandler(e, order._id)} 
+                    value={order.status} 
+                    name="status" 
+                  />
+                </div>
               </div>
             </div>
           </div>
         ))}
+
         {orders.length === 0 && (
-          <div className="no-orders text-center">
-            <img src={assets.parcel_icon} alt="No orders" style={{opacity: 0.3, width: '60px'}}/>
-            <p>No orders found.</p>
+          <div className="admin-card empty-orders">
+            <Package size={64} opacity={0.2} />
+            <h3>No Active Orders</h3>
+            <p>Customer orders will appear here once placed.</p>
           </div>
         )}
       </div>

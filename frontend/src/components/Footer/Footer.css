@@ -1,145 +1,221 @@
 .footer {
-  color: #e2e2e2;
-  background: linear-gradient(to right, #2e2e2e, #1f1f1f);
+  background: #0f172a;
+  color: #94a3b8;
+  padding: 80px 2% 40px;
+  margin-top: 100px;
+  font-family: 'Outfit', sans-serif;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  padding: 60px 8vw 30px;
-  margin-top: 80px;
-  animation: fadeInUp 1s ease;
-  font-family: 'Segoe UI', sans-serif;
+  gap: 50px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.footer * {
+  box-sizing: border-box;
+}
+
+/* Subtle accent line at top */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
 }
 
 .footer-content {
   width: 100%;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 80px;
+  grid-template-columns: 2fr 1fr 1.2fr;
+  gap: 50px;
+  align-items: start;
 }
 
-.footer-content-left,
-.footer-content-right,
-.footer-content-center {
+.footer-content-left {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 18px;
+  gap: 25px;
 }
 
+/* Make logo white for dark background */
 .footer-content-left img {
-  width: 120px;
+  height: 45px;
+  object-fit: contain;
 }
 
 .footer-content-left p {
-  font-size: 14px;
-  color: #b0b0b0;
-  line-height: 1.6;
-}
-
-.footer-content-center h2,
-.footer-content-right h2 {
-  color: #fff;
-  font-size: 18px;
-  margin-bottom: 8px;
-  position: relative;
-}
-
-.footer-content-center h2::after,
-.footer-content-right h2::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  height: 2px;
-  width: 30px;
-  background-color: tomato;
-}
-
-.footer-content-left li,
-.footer-content-center li,
-.footer-content-right li {
-  list-style: none;
-  margin-bottom: 10px;
-  cursor: pointer;
-  color: #bbbbbb;
-  font-size: 14px;
-  transition: color 0.3s;
-}
-
-.footer-content-left li:hover,
-.footer-content-center li:hover,
-.footer-content-right li:hover {
-  color: tomato;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  max-width: 450px;
+  color: #cbd5e1;
 }
 
 .footer-social-icons {
   display: flex;
-  gap: 12px;
+  gap: 15px;
   margin-top: 10px;
 }
 
-.footer-social-icons a img {
-  width: 28px;
-  height: 28px;
-  transition: transform 0.3s ease, filter 0.3s ease;
-  filter: grayscale(100%) brightness(80%);
+.footer-social-icons a {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.footer-social-icons a img:hover {
-  transform: scale(1.15);
-  filter: brightness(110%) saturate(150%);
+.footer-social-icons a:hover {
+  background: var(--primary-color);
+  transform: translateY(-5px);
+  border-color: var(--primary-color);
+  box-shadow: 0 10px 20px rgba(255, 71, 87, 0.3);
+}
+
+.footer-social-icons img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.footer-content-center,
+.footer-content-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 25px;
+}
+
+.footer h2 {
+  color: #f8fafc;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.footer h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: var(--primary-color);
+}
+
+.footer ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 0;
+}
+
+.footer ul li {
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #94a3b8;
+}
+
+.footer ul li a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer ul li:hover {
+  color: var(--primary-color);
+  transform: translateX(5px);
+}
+
+.footer-content-right b {
+  color: #f8fafc;
+  font-weight: 600;
 }
 
 .footer hr {
   width: 100%;
-  height: 1.5px;
-  background-color: #555;
+  height: 1px;
   border: none;
-  margin: 30px 0 10px;
+  background: rgba(255, 255, 255, 0.05);
+  margin: 0;
 }
 
-.footer p.footer-copyright {
-  font-size: 13px;
-  color: #888;
+.footer-copyright {
   text-align: center;
+  font-size: 0.95rem;
+  color: #64748b;
+  font-weight: 500;
+  padding-bottom: 20px;
 }
 
-/* Responsive */
-
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .footer-content {
-    display: flex;
-    flex-direction: column;
+    grid-template-columns: 1fr 1fr;
     gap: 40px;
   }
+  
+  .footer-content-left {
+    grid-column: span 2;
+    margin-bottom: 20px;
+  }
+}
 
-  .footer-content-left img {
-    width: 100px;
+@media (max-width: 600px) {
+  .footer {
+    padding: 50px 6% 30px;
+    gap: 35px;
+    text-align: center;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 35px;
   }
 
-  .footer-social-icons a img {
-    width: 24px;
-    height: 24px;
-  }
-
-  .footer-content-center h2,
-  .footer-content-right h2 {
-    font-size: 16px;
+  .footer-content-left,
+  .footer-content-center,
+  .footer-content-right {
+    align-items: center;
+    text-align: center;
   }
 
   .footer-content-left p {
-    font-size: 13px;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0 auto;
+  }
+
+  .footer-content-left img {
+    height: 32px;
+  }
+
+  .footer h2 {
+    font-size: 1.05rem;
+  }
+
+  .footer h2::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .footer ul li:hover {
+    transform: translateY(-2px);
+  }
+
+  .footer-social-icons {
+    justify-content: center;
   }
 }

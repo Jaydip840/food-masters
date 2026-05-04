@@ -1,31 +1,40 @@
 import React from 'react'
 import './Navbar.css'
 import { assets } from '../../assets/assets'
+import { LogOut, Home } from 'lucide-react'
 
 const Navbar = ({ setToken }) => {
   const goHome = () => {
-    // Attempt to grab token from localStorage if the admin saved it
     const token = localStorage.getItem("adminToken") || "";
-    // Admin email retrieved dynamically
-    const email = localStorage.getItem("adminEmail") || ""; 
-    
-    // Pass them as URL parameters so the frontend can read them on mount
-    const frontend_url = import.meta.env.VITE_FRONTEND_URL || "http://localhost:5173";
-    window.location.href = `${frontend_url}/?adminToken=${token}&adminEmail=${email}`;
+    const email = localStorage.getItem("adminEmail") || "";
+    // Redirect to the Frontend application
+    window.location.href = `http://localhost:5173/?adminToken=${token}&adminEmail=${email}`;
   };
-  
+
+  const handleLogout = () => {
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminEmail');
+    setToken("");
+  };
+
   return (
-    <div>
-      <div className="navbar">
-        <img className='logo' src={assets.logo} alt="" />
-        <div className="navbar-right">
-          <button className="home-btn" onClick={goHome}>
-            HOME
-          </button>
-          <button className="home-btn" onClick={() => { localStorage.removeItem('adminToken'); localStorage.removeItem('adminEmail'); setToken(""); }} style={{ marginLeft: '10px', background: '#ff4757', color: 'white', border: '1px solid #ff4757' }}>
-            LOGOUT
-          </button>
-          <img className='profile' src={assets.profile_image} alt="Profile" style={{ marginLeft: '20px' }} />
+    <div className="admin-navbar">
+      <div className="nav-left">
+        <img className='admin-logo' src={assets.logo} alt="Food Masters Logo" />
+        <span className="admin-badge">Admin Panel</span>
+      </div>
+      
+      <div className="nav-right">
+        <button className="nav-btn home" onClick={goHome}>
+          <Home size={18} />
+          <span>Home</span>
+        </button>
+        <button className="nav-btn logout" onClick={handleLogout}>
+          <LogOut size={18} />
+          <span>Logout</span>
+        </button>
+        <div className="admin-profile">
+          <img src={assets.profile_image} alt="Admin" />
         </div>
       </div>
     </div>

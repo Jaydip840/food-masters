@@ -115,8 +115,8 @@
 
 /* Values Section */
 .values-section {
-  padding: 80px 20px;
-  max-width: 1200px;
+  padding: 80px 2%;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -288,7 +288,7 @@
 }
 
 .contact-glass-card {
-  max-width: 1000px;
+  max-width: 1400px;
   margin: 0 auto;
   background: var(--glass);
   backdrop-filter: blur(12px);
@@ -410,12 +410,44 @@
 
 .login-prompt {
   text-align: center;
-  padding: 40px;
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeUp 0.8s ease-out;
 }
 
 .prompt-icon {
-  font-size: 3rem;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  background: var(--bg-soft);
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.login-prompt h3 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 15px;
+  letter-spacing: -0.5px;
+}
+
+.login-prompt h3 span {
+  color: var(--primary);
+}
+
+.login-prompt p {
+  color: var(--gray);
+  max-width: 320px;
+  line-height: 1.6;
+  font-size: 1.05rem;
+  margin: 0 auto;
 }
 
 .success-banner {
@@ -436,19 +468,55 @@
 
 /* Responsiveness */
 @media (max-width: 992px) {
-  .contact-glass-card { flex-direction: column; margin: 0 20px; }
+  .contact-glass-card { 
+    flex-direction: column; 
+    margin: 0 10px; 
+    border-radius: 30px;
+  }
+  
+  .contact-info {
+    padding: 50px 30px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .contact-info h2 {
+    font-size: 2.2rem;
+  }
+
+  .info-items {
+    align-items: center;
+  }
+
+  .contact-form-side {
+    padding: 50px 30px;
+  }
+
   .about-hero h1 { font-size: 3rem; }
 }
 
 @media (max-width: 768px) {
-  .about-hero { height: 50vh; }
-  .about-hero h1 { font-size: 2.5rem; }
+  .about-hero { height: 50vh; padding-top: 80px; }
+  .about-hero h1 { font-size: 2.4rem; }
+  .hero-subtext { font-size: 1.1rem; }
+  
   .values-grid { grid-template-columns: 1fr; }
-  .contact-info, .contact-form-side { padding: 40px; }
+  .values-section { padding: 60px 15px; }
+
+  .contact-info, .contact-form-side { padding: 40px 20px; }
   .team-grid { gap: 25px; }
+  
+  .premium-form { gap: 20px; }
+  .glow-btn { padding: 15px; font-size: 1rem; }
 }
 
 @media (max-width: 480px) {
   .about-hero h1 { font-size: 2rem; }
   .section-header h2 { font-size: 1.8rem; }
+  
+  .contact-info h2 { font-size: 1.8rem; }
+  .contact-info p { font-size: 0.95rem; margin-bottom: 30px; }
+  
+  .input-field label { font-size: 0.9rem; }
+  .success-banner { font-size: 0.85rem; }
 }

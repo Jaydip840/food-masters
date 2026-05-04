@@ -57,13 +57,12 @@ const LoginPopup = ({ setShowLogin }) => {
         localStorage.setItem("email", data.email);
         toast.success(response.data.message);
 
-        const admin_url = import.meta.env.VITE_ADMIN_URL || "http://localhost:5174";
-        const frontend_url = import.meta.env.VITE_FRONTEND_URL || "http://localhost:5173";
-
         if (response.data.role === "admin") {
-          window.location.href = `${admin_url}/?adminToken=${response.data.token}&adminEmail=${data.email}`;
+          // window.location.href = "http://localhost:5174";
+          window.location.href = `https://foodizo-on-admin.netlify.app/?adminToken=${response.data.token}&adminEmail=${data.email}`;
         } else {
-          window.location.href = frontend_url;
+          window.location.href = "https://foodizo-on.netlify.app";
+          // window.location.href = "http://localhost:5173";
         }
 
         // reset state & close popup

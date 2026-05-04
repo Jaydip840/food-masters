@@ -11,6 +11,20 @@ const Navbar = ({ setShowLogin }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
     if (storedEmail === "foodizo17@gmail.com") {
@@ -29,8 +43,9 @@ const Navbar = ({ setShowLogin }) => {
   };
 
   return (
-    <div className='navbar'>
+    <div className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <Link to='/'><img src={assets.logo} alt="" className='logo' /></Link>
+      
       <div className={`navbar-hamburger ${showMobileMenu ? 'active' : ''}`} onClick={() => setShowMobileMenu(!showMobileMenu)}>
         <span></span>
         <span></span>
@@ -38,35 +53,41 @@ const Navbar = ({ setShowLogin }) => {
       </div>
 
       <ul className={`navbar-menu ${showMobileMenu ? 'mobile-active' : ''}`}>
-        <Link to='/' onClick={() => { setMenu("home"); setShowMobileMenu(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={menu === "home" ? "active" : ""} style={{ "--i": 1 }}>Home</Link>
-        <a href='#explore-menu' onClick={() => { setMenu("menu"); setShowMobileMenu(false); }} className={menu === "menu" ? "active" : ""} style={{ "--i": 2 }}> Menu</a>
-        <Link to='/restaurants' onClick={() => { setMenu("restaurants"); setShowMobileMenu(false); }} className={menu === "restaurants" ? "active" : ""} style={{ "--i": 3 }}> Find Restaurant </Link>
-        <Link to='/aboutus' onClick={() => { setMenu("aboutus"); setShowMobileMenu(false); }} className={menu === "about-us" ? "active" : ""} style={{ "--i": 4 }}>About Us</Link>
-        <Link to='/policy' onClick={() => { setMenu("policy"); setShowMobileMenu(false); }} className={`mobile-only ${menu === "policy" ? "active" : ""}`} style={{ "--i": 5 }}>Privacy Policy</Link>
+        <Link to='/' onClick={() => { setMenu("home"); setShowMobileMenu(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={menu === "home" ? "active" : ""}>Home</Link>
+        <a href='#explore-menu' onClick={() => { setMenu("menu"); setShowMobileMenu(false); }} className={menu === "menu" ? "active" : ""}>Menu</a>
+        <Link to='/restaurants' onClick={() => { setMenu("restaurants"); setShowMobileMenu(false); }} className={menu === "restaurants" ? "active" : ""}>Restaurants</Link>
+        <Link to='/aboutus' onClick={() => { setMenu("aboutus"); setShowMobileMenu(false); }} className={menu === "aboutus" ? "active" : ""}>About Us</Link>
+        <Link to='/policy' onClick={() => { setMenu("policy"); setShowMobileMenu(false); }} className={`mobile-only ${menu === "policy" ? "active" : ""}`}>Privacy Policy</Link>
+        {!token && <button className='mobile-signin' onClick={() => { setShowLogin(true); setShowMobileMenu(false); }}>Sign In</button>}
       </ul>
 
       <div className='navbar-right'>
         <div className="navbar-search-icon">
-          <Link to="/cart"><img src={assets.basket_icon} alt="" /></Link>
-          <div className={getTotalCartAmount() === 0 ? "" : "dot"}></div>
+          <Link to="/cart" className="navbar-cart-link">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="cart-svg">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+          </Link>
+          {getTotalCartAmount() !== 0 && <div className="dot"></div>}
         </div>
         {!token ? (
           <button onClick={() => setShowLogin(true)}>Sign In</button>
         ) : (
           <div className='navbar-profile'>
-            <img src={assets.profile_icon} alt="" />
+            <img src={assets.profile_icon} alt="Profile" />
             <ul className='nav-profile-dropdown'>
               {isAdmin && (
                 <>
-                  <li onClick={() => { window.location.href = import.meta.env.VITE_ADMIN_URL || "http://localhost:5174"; }}>
+                  <li onClick={() => { window.location.href = "http://localhost:5174"; }}>
                     <img src={assets.settings_icon} alt="" />
-                    <p>Admin</p>
+                    <p>Admin Panel</p>
                   </li>
-
                   <hr />
                 </>
               )}
-              <li onClick={() => navigate('/profile')}><img src={assets.profile_icon} alt="" /><p>profile</p></li>
+              <li onClick={() => navigate('/profile')}><img src={assets.profile_icon} alt="" /><p>Profile</p></li>
               <hr />
               <li onClick={() => navigate('/myorders')}><img src={assets.bag_icon} alt="" /><p>Orders</p></li>
               <hr />

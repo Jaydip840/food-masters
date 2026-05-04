@@ -1,76 +1,159 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
   --primary: #ff4757;
-  --primary-hover: #ff6b81;
-  --secondary: #2ed573;
-  --text-dark: #2f3542;
-  --text-light: #747d8c;
-  --bg-color: #f8f9fa;
-  --card-bg: #ffffff;
-  --border-color: #f1f2f6;
-  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.08);
-  --shadow-hover: 0 15px 40px rgba(255, 71, 87, 0.15);
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  --primary-glow: rgba(255, 71, 87, 0.15);
+  --primary-light: rgba(255, 71, 87, 0.08);
+  --dark: #0f172a;
+  --text-main: #334155;
+  --text-soft: #64748b;
+  --bg-app: #f1f5f9;
+  --white: #ffffff;
+  --sidebar-width: 260px;
+  --navbar-height: 80px;
+  --shadow-premium: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --border-soft: 1px solid #e2e8f0;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
-  padding: 0;
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
   font-family: 'Outfit', sans-serif;
 }
 
 body {
-  background-color: var(--bg-color);
-  color: var(--text-dark);
-  -webkit-font-smoothing: antialiased;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-hr {
-  border: none;
-  height: 1px;
-  background-color: var(--border-color);
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  overflow-x: hidden;
 }
 
 .app-content {
   display: flex;
-  min-height: calc(100vh - 80px); /* Assuming navbar is 80px */
+  width: 100%;
+}
+
+.admin-main-view {
+  flex: 1;
+  padding: 30px;
+  padding-bottom: 100px;
+  margin-left: var(--sidebar-width);
+  min-height: calc(100vh - var(--navbar-height));
+  transition: var(--transition);
+  width: 100%;
+}
+
+/* Page Headers */
+.admin-page-header {
+  margin-bottom: 30px;
+}
+
+.admin-page-header h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--dark);
+}
+
+.admin-page-header p {
+  color: var(--text-soft);
+  font-size: 1rem;
+}
+
+/* Professional Form Controls */
+.admin-card {
+  background: var(--white);
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: var(--shadow-premium);
+  border: var(--border-soft);
+  width: 100%;
 }
 
 .flex-col {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
 }
 
-.cursor {
+label {
+  font-weight: 600;
+  color: var(--dark);
+  font-size: 0.95rem;
+}
+
+input, textarea, select {
+  padding: 14px 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #fcfcfc;
+  font-size: 1rem;
+  outline: none;
+  transition: var(--transition);
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+  background: white;
+}
+
+input[type="file"] {
+  padding: 10px;
+  background: #f8fafc;
+  border: 2px dashed #e2e8f0;
   cursor: pointer;
+  width: 100%;
 }
 
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+input[type="file"]::file-selector-button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  margin-right: 15px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
 }
 
-::-webkit-scrollbar-track {
-  background: var(--bg-color);
+input[type="file"]::file-selector-button:hover {
+  background: #e84118;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #dfe4ea;
-  border-radius: 4px;
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+  padding-right: 3rem !important;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #ced6e0;
+/* Page Headers Fix */
+.admin-page-header h2 span {
+  color: var(--primary);
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 80px;
+  }
+  .admin-main-view {
+    margin-left: 80px;
+    padding: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-content {
+    flex-direction: column;
+  }
+  .admin-main-view {
+    margin-left: 0;
+    padding: 20px;
+    padding-bottom: 100px;
+  }
 }

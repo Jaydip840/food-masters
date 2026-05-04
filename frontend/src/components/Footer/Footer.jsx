@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="footer-content">
         <div className="footer-content-left">
             <img src={assets.logo} alt="" />
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime aperiam beatae pariatur eaque ad tenetur recusandae fuga, alias voluptas ipsum laudantium nihil aliquam repudiandae explicabo veritatis quibusdam repellendus quo libero!</p>
+            <p>Food Masters is your premier destination for exceptional culinary experiences. We partner with the finest local restaurants to deliver fresh, high-quality meals straight to your door. Our mission is to satisfy your cravings and elevate your dining experience, one delicious meal at a time.</p>
             <div className="footer-social-icons">
                 <a href="https://www.facebook.com/"><img src={assets.facebook_icon}  alt="Facebook" /></a>
                 <a href="https://x.com/"><img src={assets.twitter_icon}  alt="Instagram" /></a>

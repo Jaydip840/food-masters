@@ -3,8 +3,13 @@ import './Add.css'
 import { assets } from '../../assets/assets'
 import axios from "axios"
 import { toast } from 'react-toastify'
+import { UploadCloud, PlusCircle } from 'lucide-react'
+
+import CustomSelect from '../../components/CustomSelect/CustomSelect'
 
 const Add = ({ url }) => {
+
+    const categories = ["Salad", "Rolls", "Desserts", "Sandwich", "Cake", "Soup", "Pasta", "Noodles", "Pizza", "Burger", "Drinks"];
 
     const [image, setImage] = useState(false)
     const [data, setData] = useState({
@@ -46,64 +51,73 @@ const Add = ({ url }) => {
     }
 
     return (
-        <div className='add'>
-            <div className="add-header">
-                <h2>Add New Item</h2>
-                <p>Add a new food item to your menu</p>
+        <div className='add-page-container'>
+            <div className="admin-page-header">
+                <h2>Add New <span>Food Item</span></h2>
+                <p>Manage your restaurant menu and add fresh delicacies</p>
             </div>
             
-            <form className='add-form' onSubmit={onSubmitHandler}>
-                <div className="form-group flex-col">
-                    <label>Upload Image</label>
-                    <div className="add-image-upload">
-                        <label htmlFor="image">
-                            <img src={image ? URL.createObjectURL(image) : assets.upload_area} alt="Upload area" className="upload-preview" />
-                            {!image && <span className="upload-hint">Click to upload</span>}
-                        </label>
-                        <input onChange={(e) => setImage(e.target.files[0])} type="file" id="image" hidden required />
-                    </div>
-                </div>
+            <div className="admin-card">
+              <form className='add-form-grid' onSubmit={onSubmitHandler}>
+                  
+                  {/* Left Column: Image Upload */}
+                  <div className="form-column-left">
+                      <div className="form-group flex-col">
+                          <label>Upload Display Image</label>
+                          <div className="add-image-upload-box">
+                              <label htmlFor="image">
+                                  {image ? (
+                                    <div className="preview-container">
+                                      <img src={URL.createObjectURL(image)} alt="Preview" />
+                                      <div className="change-overlay">Change Image</div>
+                                    </div>
+                                  ) : (
+                                    <div className="upload-placeholder">
+                                      <UploadCloud size={48} color="var(--text-soft)" />
+                                      <p>Click or drag to upload image</p>
+                                      <span>Supports JPG, PNG (Max 2MB)</span>
+                                    </div>
+                                  )}
+                              </label>
+                              <input onChange={(e) => setImage(e.target.files[0])} type="file" id="image" hidden required />
+                          </div>
+                      </div>
+                  </div>
 
-                <div className="form-row">
-                    <div className="form-group flex-col">
-                        <label>Product name</label>
-                        <input onChange={onChangeHandler} value={data.name} type="text" name='name' placeholder='e.g., Spicy Paneer Tikka' required />
-                    </div>
+                  {/* Right Column: Form Fields */}
+                  <div className="form-column-right">
+                      <div className="form-group flex-col">
+                          <label>Product Name</label>
+                          <input onChange={onChangeHandler} value={data.name} type="text" name='name' placeholder='e.g., Gourmet Mediterranean Salad' required />
+                      </div>
 
-                    <div className="form-group flex-col">
-                        <label>Product category</label>
-                        <select onChange={onChangeHandler} name="category" value={data.category}>
-                            <option value="Salad">Salad</option>
-                            <option value="Rolls">Rolls</option>
-                            <option value="Desserts">Desserts</option>
-                            <option value="Sandwich">Sandwich</option>
-                            <option value="Cake">Cake</option>
-                            <option value="Soup">Soup</option>
-                            <option value="Pasta">Pasta</option>
-                            <option value="Noodles">Noodles</option>
-                            <option value="Pizza">Pizza</option>
-                            <option value="Burger">Burger</option>
-                            <option value="Drinks">Drinks</option>
-                        </select>
-                    </div>
-                </div>
+                      <div className="form-row-grid">
+                        <div className="form-group flex-col">
+                            <label>Product Category</label>
+                            <CustomSelect 
+                                options={categories} 
+                                onChange={onChangeHandler} 
+                                value={data.category} 
+                                name="category" 
+                            />
+                        </div>
+                        <div className="form-group flex-col">
+                            <label>Price (₹)</label>
+                            <input onChange={onChangeHandler} value={data.price} type="Number" name='price' placeholder='250' required />
+                        </div>
+                      </div>
 
-                <div className="form-group flex-col">
-                    <label>Product description</label>
-                    <textarea onChange={onChangeHandler} value={data.description} name="description" rows="4" placeholder='Detailed description of the dish...' required></textarea>
-                </div>
+                      <div className="form-group flex-col">
+                          <label>Product Description</label>
+                          <textarea onChange={onChangeHandler} value={data.description} name="description" rows="5" placeholder='Tell your customers what makes this dish special...' required></textarea>
+                      </div>
 
-                <div className="form-row price-row">
-                    <div className="form-group flex-col">
-                        <label>Product price (₹)</label>
-                        <input onChange={onChangeHandler} value={data.price} type="Number" name='price' placeholder='250' required />
-                    </div>
-                </div>
-                
-                <button type='submit' className='add-btn'>
-                    Add Item
-                </button>
-            </form>
+                      <button type='submit' className='admin-submit-btn'>
+                          <PlusCircle size={20} /> Add to Menu
+                      </button>
+                  </div>
+              </form>
+            </div>
         </div>
     )
 }

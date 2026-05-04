@@ -119,7 +119,7 @@ const StoreContextProvider = (props) => {
 
     const removeFromCartById = async (itemId) => {
         // Find the first key that starts with this itemId
-        const cartKey = Object.keys(cartItems).find(key => key.startsWith(itemId + "_"));
+        const cartKey = Object.keys(cartItems || {}).find(key => key.startsWith(itemId + "_"));
         if (cartKey) {
             await removeFromCart(cartKey);
         }
@@ -196,7 +196,7 @@ const StoreContextProvider = (props) => {
     }
     const loadCartData = async (token) => {
         const response = await axios.post(url + "/api/cart/get", {}, { headers: { token } })
-        setCartItems(response.data.cartData);
+        setCartItems(response.data.cartData || {});
     }
 
     useEffect(() => {

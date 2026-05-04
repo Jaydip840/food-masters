@@ -1,0 +1,84 @@
+.scroll-buttons-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.scroll-buttons-container.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+.scroll-nav-btn {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #2d3436;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.scroll-nav-btn:hover {
+    background-color: #ff4757;
+    color: #ffffff;
+}
+
+.scroll-nav-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.scroll-nav-btn.up:hover svg {
+    transform: translateY(-3px);
+}
+
+.scroll-nav-btn.down:hover svg {
+    transform: translateY(3px);
+}
+
+.scroll-nav-divider {
+    height: 1px;
+    width: 60%;
+    background: rgba(0, 0, 0, 0.05);
+    margin: 0 auto;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .scroll-buttons-container {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .scroll-nav-btn {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+/* Hide default scrollbar but keep functionality */
+html, body {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+body::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}

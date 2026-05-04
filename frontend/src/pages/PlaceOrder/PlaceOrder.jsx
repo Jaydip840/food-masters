@@ -41,7 +41,7 @@ const PlaceOrder = () => {
     let orderItems = [];
     food_list.forEach((item) => {
       // Find all variations of this item in the cart
-      Object.keys(cartItems).forEach(cartKey => {
+      Object.keys(cartItems || {}).forEach(cartKey => {
         if (cartKey.startsWith(item._id + "_") && cartItems[cartKey] > 0) {
           const [id, size, extrasStr] = cartKey.split("_");
           const extras = extrasStr ? extrasStr.split(",") : [];

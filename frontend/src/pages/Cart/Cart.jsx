@@ -2,7 +2,8 @@ import React, { useContext, useState } from 'react'
 import './Cart.css'
 import { StoreContext } from '../../context/StoreContext'
 import { useNavigate } from 'react-router-dom';
-import { Trash2, ShoppingBag, ArrowRight, Plus, Minus, Tag, Truck, Receipt } from 'lucide-react';
+import { Trash2, ShoppingBag, ArrowRight, Plus, Minus, Tag, Truck, Receipt, ShieldCheck } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const Cart = () => {
   const { 
@@ -27,14 +28,15 @@ const Cart = () => {
     if (promoCode.trim().toUpperCase() === "PJK840") {
       setDeliveryFee(0);
       setPromoApplied(true);
+      toast.success("Promo Code Applied Successfully!");
     } else {
-      alert("Invalid Promo Code");
+      toast.error("Invalid Promo Code");
       setDeliveryFee(50);
       setPromoApplied(false);
     }
   };
 
-  const hasItems = Object.keys(cartItems).some(key => cartItems[key] > 0);
+  const hasItems = Object.keys(cartItems || {}).some(key => cartItems[key] > 0);
 
   if (!hasItems) {
     return (
@@ -55,6 +57,24 @@ const Cart = () => {
 
   return (
     <div className='cart-page-wrapper'>
+      {/* Checkout Progress Bar */}
+      <div className="checkout-steps">
+        <div className="step active">
+          <div className="step-circle">1</div>
+          <span>Cart</span>
+        </div>
+        <div className="step-line"></div>
+        <div className="step">
+          <div className="step-circle">2</div>
+          <span>Delivery</span>
+        </div>
+        <div className="step-line"></div>
+        <div className="step">
+          <div className="step-circle">3</div>
+          <span>Payment</span>
+        </div>
+      </div>
+
       <div className="cart-header">
         <h1>Your <span>Shopping Bag</span></h1>
         <button className='clear-all-btn' onClick={clearCart}>
@@ -64,7 +84,7 @@ const Cart = () => {
 
       <div className="cart-content-grid">
         <div className="cart-items-section">
-          {Object.keys(cartItems).map((cartKey, index) => {
+          {(Object.keys(cartItems || {})).map((cartKey, index) => {
             if (cartItems[cartKey] > 0) {
               const [itemId, size, extrasStr] = cartKey.split("_");
               const extras = extrasStr ? extrasStr.split(",") : [];
@@ -152,7 +172,10 @@ const Cart = () => {
             <button className='checkout-btn' onClick={() => navigate('/order')}>
               Proceed to Checkout <ArrowRight size={20} />
             </button>
-            <p className="secure-text">🔒 Secure Checkout Guaranteed</p>
+            <div className="secure-badge">
+              <ShieldCheck size={18} className="shield-icon" />
+              <span>100% Secure & Encrypted Payment</span>
+            </div>
           </div>
         </div>
       </div>

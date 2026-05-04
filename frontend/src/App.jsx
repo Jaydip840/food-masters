@@ -17,6 +17,7 @@ import Verify from './pages/Verify/Verify.jsx'
 import MyOrders from './pages/MyOrders/MyOrders.jsx'
 import FoodDetails from './pages/FoodDetails/FoodDetails.jsx'
 import Profile from './pages/Profile/Profile.jsx'
+import ScrollButtons from './components/ScrollButtons/ScrollButtons'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
@@ -57,6 +58,7 @@ const App = () => {
       <div className='app'>
         <ToastContainer position="top-right" autoClose={3000} />
         <ScrollToTop />
+        <ScrollButtons />
         <Navbar setShowLogin={setShowLogin} />
         <Routes>
           <Route path="/" element={<Home />} />

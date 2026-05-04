@@ -5,8 +5,9 @@
 }
 
 .policy-container {
-  max-width: var(--container-width);
+  max-width: 1600px;
   margin: 0 auto;
+  padding: 0 2%;
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 60px;

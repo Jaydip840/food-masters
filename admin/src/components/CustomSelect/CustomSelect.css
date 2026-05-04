@@ -1,0 +1,98 @@
+.custom-select-wrapper {
+    position: relative;
+    width: 100%;
+    z-index: 50;
+}
+
+.select-trigger {
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #fcfcfc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.select-trigger:hover {
+    border-color: var(--primary);
+    background: white;
+}
+
+.select-trigger.active {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-glow);
+    background: white;
+}
+
+.select-trigger .arrow {
+    color: var(--text-soft);
+    transition: var(--transition);
+}
+
+.select-trigger .arrow.rotate {
+    transform: rotate(180deg);
+}
+
+.select-options {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background: white;
+    border-radius: 15px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 1000;
+    animation: dropdownFade 0.2s ease-out;
+}
+
+/* Custom Scrollbar for Dropdown */
+.select-options::-webkit-scrollbar {
+    width: 6px;
+}
+
+.select-options::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.select-options::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+}
+
+.select-options::-webkit-scrollbar-thumb:hover {
+    background: var(--text-soft);
+}
+
+.select-option {
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.select-option:hover {
+    background: var(--bg-app);
+    color: var(--primary);
+    padding-left: 25px;
+}
+
+.select-option.selected {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 700;
+}
+
+@keyframes dropdownFade {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

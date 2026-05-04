@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import "./AboutUs.css";
 import { StoreContext } from "../../context/StoreContext";
-import { Heart, Target, Zap, Linkedin, Globe, Mail, MessageSquare, Send, Phone, MapPin } from "lucide-react";
+import { Heart, Target, Zap, Linkedin, Globe, Mail, MessageSquare, Send, Phone, MapPin, UserCheck } from "lucide-react";
 
 const AboutUs = () => {
   const creators = [
@@ -134,9 +134,11 @@ const AboutUs = () => {
           <div className="contact-form-side">
             {!token ? (
               <div className="login-prompt">
-                <div className="prompt-icon">🔒</div>
-                <h3>Authentication Required</h3>
-                <p>Please sign in to your account to send us a secure message.</p>
+                <div className="prompt-icon">
+                  <UserCheck size={60} color="var(--primary)" />
+                </div>
+                <h3>Join the <span>Conversation</span></h3>
+                <p>Sign in to unlock our secure messaging system and share your feedback with us.</p>
               </div>
             ) : (
               <form className="premium-form" onSubmit={handleSubmit}>

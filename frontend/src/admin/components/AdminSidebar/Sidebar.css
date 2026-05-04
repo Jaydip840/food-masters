@@ -1,0 +1,80 @@
+.sidebar {
+    width: 18%;
+    min-height: calc(100vh - 80px); /* Adjusting for navbar height */
+    background: var(--card-bg);
+    border-right: 1px solid var(--border-color);
+    font-size: max(1vw, 12px);
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.02);
+    padding-top: 40px;
+    transition: all 0.3s ease;
+}
+
+.sidebar-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-left: 15%;
+}
+
+.sidebar-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-light);
+    font-weight: 500;
+    position: relative;
+    border-right: 3px solid transparent;
+}
+
+.sidebar-option img {
+    width: 22px;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.sidebar-option:hover {
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+}
+
+.sidebar-option.active {
+    background: linear-gradient(90deg, rgba(255, 71, 87, 0.1), transparent);
+    color: var(--primary);
+    border-right: 3px solid var(--primary);
+}
+
+.sidebar-option.active img {
+    opacity: 1;
+    filter: invert(39%) sepia(87%) saturate(1633%) hue-rotate(330deg) brightness(101%) contrast(106%); /* Approximation of primary color */
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        width: 80px;
+    }
+    
+    .sidebar-options {
+        padding-left: 0;
+        align-items: center;
+    }
+
+    .sidebar-option {
+        padding: 15px;
+        border-radius: var(--radius-md);
+        border-right: none;
+        justify-content: center;
+    }
+    
+    .sidebar-option.active {
+        border-right: none;
+        border-bottom: 3px solid var(--primary);
+    }
+    
+    .sidebar-option p {
+        display: none;
+    }
+}
